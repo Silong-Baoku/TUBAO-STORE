@@ -1,0 +1,2433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图包商店 - 注册系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <style>
+        :root {
+            --neon-bg: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            --neon-primary: #2a86ba;
+            --neon-secondary: #2a86ba;
+            --neon-accent: #00c9ff;
+            --neon-danger: #ff2d75;
+            --neon-success: #00c9ff;
+            --neon-text: #ffffff;
+            --neon-border: rgba(42, 134, 186, 0.5);
+            --neon-glow-primary: 0 0 10px rgba(42, 134, 186, 0.8), 0 0 20px rgba(42, 134, 186, 0.6), 0 0 30px rgba(42, 134, 186, 0.4);
+            --neon-glow-accent: 0 0 10px rgba(0, 201, 255, 0.8), 0 0 20px rgba(0, 201, 255, 0.6), 0 0 30px rgba(0, 201, 255, 0.4);
+            --neon-glow-danger: 0 0 10px rgba(255, 45, 117, 0.8), 0 0 20px rgba(255, 45, 117, 0.6), 0 0 30px rgba(255, 45, 117, 0.4);
+            --neon-glow-success: 0 0 10px rgba(0, 201, 255, 0.8), 0 0 20px rgba(0, 201, 255, 0.6), 0 0 30px rgba(0, 201, 255, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: var(--neon-bg);
+            color: var(--neon-text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-particle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--neon-primary), var(--neon-accent));
+            box-shadow: var(--neon-glow-primary);
+            animation: float 15s infinite linear;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-20vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .auth-container {
+            background: rgba(30, 10, 60, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--neon-border);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: var(--neon-glow-primary);
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+            animation: shine 6s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                box-shadow: var(--neon-glow-primary);
+            }
+            25% {
+                box-shadow: 0 0 20px rgba(42, 134, 186, 0.8), 0 0 40px rgba(42, 134, 186, 0.6), 0 0 60px rgba(42, 134, 186, 0.4), 0 0 0 0 rgba(42, 134, 186, 0);
+            }
+            50% {
+                box-shadow: var(--neon-glow-primary);
+            }
+            75% {
+                box-shadow: 0 0 20px rgba(42, 134, 186, 0.8), 0 0 40px rgba(42, 134, 186, 0.6), 0 0 60px rgba(42, 134, 186, 0.4), 0 0 0 4px rgba(42, 134, 186, 0.3);
+            }
+            100% {
+                box-shadow: var(--neon-glow-primary);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px var(--neon-primary);
+            background: linear-gradient(90deg, var(--neon-accent), var(--neon-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--neon-accent);
+            box-shadow: var(--neon-glow-accent);
+            animation: pulse 3s infinite;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neon-accent);
+            font-size: 18px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            background: rgba(25, 5, 50, 0.7);
+            border: 1px solid var(--neon-border);
+            border-radius: 8px;
+            color: var(--neon-text);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--neon-accent);
+            box-shadow: var(--neon-glow-accent);
+        }
+
+        input.error, select.error {
+            border-color: var(--neon-danger);
+            box-shadow: var(--neon-glow-danger);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .checkbox-container input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));
+            color: white;
+            box-shadow: var(--neon-glow-primary);
+        }
+
+        .btn-secondary {
+            background: rgba(25, 5, 50, 0.7);
+            border: 1px solid var(--neon-border);
+            color: var(--neon-accent);
+        }
+        
+        .btn-logout {
+            background: rgba(255, 107, 157, 0.2);
+            border: 1px solid var(--neon-danger);
+            color: var(--neon-danger);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), var(--neon-glow-primary);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #4a9bcc, #2a86ba);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(35, 10, 70, 0.7);
+            box-shadow: var(--neon-glow-accent);
+        }
+        
+        .btn-logout:hover {
+            background: rgba(255, 107, 157, 0.3);
+            box-shadow: var(--neon-glow-danger);
+        }
+
+        .status-message {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .error-message {
+            background: rgba(255, 107, 157, 0.15);
+            border: 1px solid var(--neon-danger);
+            color: #ffb6c9;
+            box-shadow: var(--neon-glow-danger);
+        }
+
+        .success-message {
+            background: rgba(42, 134, 186, 0.15);
+            border: 1px solid var(--neon-success);
+            color: #a0d7ff;
+            box-shadow: var(--neon-glow-success);
+        }
+
+        .warning-message {
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid #ffc107;
+            color: #ffe69c;
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.8);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid var(--neon-accent);
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .ban-container {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .ban-icon {
+            font-size: 80px;
+            color: var(--neon-danger);
+            margin-bottom: 20px;
+            text-shadow: var(--neon-glow-danger);
+        }
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer a {
+            color: var(--neon-accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 帮助模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background: rgba(30, 10, 60, 0.95);
+            border: 1px solid var(--neon-accent);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--neon-glow-accent);
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: var(--neon-accent);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .close-modal:hover {
+            transform: rotate(90deg);
+            color: var(--neon-danger);
+        }
+        
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--neon-border);
+        }
+        
+        .modal-header h2 {
+            font-size: 24px;
+            background: linear-gradient(90deg, var(--neon-accent), var(--neon-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .help-section {
+            margin-bottom: 25px;
+        }
+        
+        .help-section h3 {
+            color: var(--neon-accent);
+            margin-bottom: 10px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .help-section p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .help-section ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        
+        .help-section li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .contact-info {
+            background: rgba(25, 5, 50, 0.5);
+            border-left: 3px solid var(--neon-accent);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+        }
+
+        /* 代号选择模态框 */
+        .code-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .code-option {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(25, 5, 50, 0.7);
+            border: 2px solid var(--neon-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .code-option:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--neon-glow-primary);
+            border-color: var(--neon-accent);
+        }
+
+        .code-option.active {
+            background: linear-gradient(135deg, var(--neon-primary), var(--neon-secondary));
+            box-shadow: var(--neon-glow-primary);
+            border-color: var(--neon-accent);
+        }
+
+        .code-option i {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        /* 解封模态框 */
+        .unban-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .unban-modal-content {
+            background: rgba(30, 10, 60, 0.95);
+            border: 1px solid var(--neon-danger);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: var(--neon-glow-danger);
+            position: relative;
+            text-align: center;
+        }
+        
+        /* 欢迎页面 */
+        .welcome-container {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .welcome-icon {
+            font-size: 80px;
+            color: var(--neon-accent);
+            margin-bottom: 20px;
+            text-shadow: var(--neon-glow-accent);
+        }
+        
+        .welcome-message {
+            margin-bottom: 25px;
+        }
+        
+        .user-info {
+            background: rgba(25, 5, 50, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .user-info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(42, 134, 186, 0.2);
+        }
+        
+        .user-info-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* 注册模态框 */
+        .register-modal-content {
+            background: rgba(30, 10, 60, 0.95);
+            border: 1px solid var(--neon-primary);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--neon-glow-primary);
+            position: relative;
+        }
+        
+        .register-form-group {
+            margin-bottom: 20px;
+        }
+        
+        /* 激活码模态框 */
+        .activation-modal-content {
+            background: rgba(30, 10, 60, 0.95);
+            border: 1px solid var(--neon-success);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--neon-glow-success);
+            position: relative;
+        }
+        
+        .activation-instructions {
+            background: rgba(25, 5, 50, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 3px solid var(--neon-accent);
+        }
+        
+        .activation-instructions p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .activation-code {
+            font-weight: bold;
+            color: var(--neon-success);
+            text-shadow: var(--neon-glow-success);
+            font-size: 18px;
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(42, 134, 186, 0.1);
+            border-radius: 8px;
+        }
+
+        /* 密码查询按钮样式 */
+        .password-query {
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--neon-accent);
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .password-query:hover {
+            color: var(--neon-primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        /* 查询模态框样式 */
+        .query-modal-content {
+            background: rgba(30, 10, 60, 0.95);
+            border: 1px solid var(--neon-primary);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--neon-glow-primary);
+            position: relative;
+        }
+        
+        .query-modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--neon-border);
+        }
+        
+        .query-modal-header h2 {
+            font-size: 22px;
+            background: linear-gradient(90deg, var(--neon-accent), var(--neon-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .query-result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(25, 5, 50, 0.5);
+            border-radius: 8px;
+            border-left: 3px solid var(--neon-accent);
+            text-align: left;
+            display: none;
+        }
+        
+        .query-result p {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .query-result .password {
+            font-weight: bold;
+            color: var(--neon-success);
+            font-size: 18px;
+            text-shadow: var(--neon-glow-success);
+        }
+        
+        .note-box {
+            background: rgba(255, 193, 7, 0.15);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+          /* 统一按钮样式 */
+        .copy-btn, .pay-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+        }
+        
+        .copy-btn {
+            background: rgba(42, 134, 186, 0.2);
+            border: 1px solid var(--neon-success);
+            color: var(--neon-success);
+        }
+        
+        .pay-btn {
+            background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));
+            border: 1px solid var(--neon-accent);
+            color: white;
+            box-shadow: var(--neon-glow-primary);
+        }
+        
+        .copy-btn:hover {
+            background: rgba(42, 134, 186, 0.3);
+            box-shadow: var(--neon-glow-success);
+        }
+        
+        .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), var(--neon-glow-accent);
+        }
+        
+        /* 支付模态框样式 */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .payment-content {
+            background: rgba(30, 10, 60, 0.95);
+            border: 1px solid var(--neon-accent);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--neon-glow-accent);
+            position: relative;
+            text-align: center;
+        }
+        
+        .close-payment {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: var(--neon-accent);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .close-payment:hover {
+            color: var(--neon-danger);
+            transform: rotate(90deg);
+        }
+        
+        .payment-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--neon-border);
+        }
+        
+        .payment-header h2 {
+            font-size: 24px;
+            background: linear-gradient(90deg, var(--neon-accent), var(--neon-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .payment-option {
+            width: 140px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(25, 5, 50, 0.7);
+            border: 2px solid var(--neon-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .payment-option:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-accent);
+            box-shadow: var(--neon-glow-primary);
+        }
+        
+        .payment-option i {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .payment-option.wechat i {
+            color: #2aae67;
+        }
+        
+        .payment-option.alipay i {
+            color: #009fe8;
+        }
+        
+        .qrcode-container {
+            display: none;
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            max-width: 200px;
+        }
+        
+        .qrcode-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        
+        .payment-instructions {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(25, 5, 50, 0.5);
+            border-radius: 8px;
+            border-left: 3px solid var(--neon-accent);
+            text-align: left;
+            font-size: 14px;
+        }
+        
+        .payment-instructions h3 {
+            color: var(--neon-accent);
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .payment-instructions ol {
+            padding-left: 20px;
+        }
+        
+        .payment-instructions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .share-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--neon-glow-primary);
+            transition: all 0.3s;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), var(--neon-glow-primary);
+        }
+
+      
+        
+        .copy-btn:hover {
+            background: rgba(42, 134, 186, 0.3);
+            box-shadow: var(--neon-glow-success);
+        }
+        
+        .copy-btn i {
+            margin-right: 5px;
+        }
+        
+        /* 激活码文本样式调整 */
+        .activation-text {
+            background: rgba(42, 134, 186, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            color: var(--neon-success);
+            text-shadow: var(--neon-glow-success);
+            font-size: 16px;
+            word-break: break-all;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 0;
+        }
+        
+        .activation-text:hover {
+            background: rgba(42, 134, 186, 0.2);
+        }
+        
+        /* 视频教程模态框 */
+        .video-modal-content {
+            background: rgba(30, 10, 60, 0.95);
+            border: 1px solid var(--neon-accent);
+            border-radius: 15px;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: var(--neon-glow-accent);
+            position: relative;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+            border-radius: 10px;
+            background: #000;
+        }
+        
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .video-note {
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 15px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            .auth-container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .modal-header h2 {
+                font-size: 20px;
+            }
+            
+            .code-option {
+                width: 70px;
+                height: 70px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .auth-container {
+                padding: 15px;
+            }
+            
+            input, select, .btn {
+                padding: 12px 12px 12px 40px;
+            }
+            
+            .input-with-icon i {
+                font-size: 16px;
+                left: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 粒子背景容器 -->
+    <div class="particles-container" id="particles"></div>
+    
+    <!-- 主注册容器 -->
+    <div class="auth-container" id="authContainer">
+        <div class="header">
+            <div class="logo">
+                <img src="https://s21.ax1x.com/2025/07/03/pVKZdh9.jpg" alt="图包商店" id="avatarImg">
+            </div>
+            <h1>图包商店</h1>
+            <p>账号注册系统</p>
+        </div>
+        
+        <!-- 状态消息 -->
+        <div class="status-message" id="statusMessage"></div>
+        
+        <!-- 注册表单 -->
+        <form id="authForm">
+            <div class="form-group">
+                <label for="qqNumber"><i class="fas fa-user"></i> QQ号码</label>
+                <div class="input-with-icon">
+                    <i class="fab fa-qq"></i>
+                    <input type="text" id="qqNumber" placeholder="请输入您的QQ号码" required minlength="5" maxlength="10">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="userName"><i class="fas fa-signature"></i> 用户昵称</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user-circle"></i>
+                    <input type="text" id="userName" placeholder="请输入您的昵称" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="userCode"><i class="fas fa-key"></i> 注册代号</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user-secret"></i>
+                    <input type="text" id="userCode" placeholder="点击选择注册代号" readonly>
+                </div>
+            </div>
+            
+            <div class="form-group" id="passwordGroup" style="display: none;">
+                <label for="password"><i class="fas fa-lock"></i> 账号密码</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="注册码(0000)">
+                    <!-- 查询密码按钮 -->
+                    <button type="button" class="password-query" id="passwordQueryBtn" title="查询密码">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="checkbox-container">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe">24小时内免登录</label>
+            </div>
+            
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <i class="fas fa-sign-in-alt"></i> 登陆账号
+                </button>
+                <button type="button" class="btn btn-secondary" id="fillBtn">
+                    <i class="fas fa-bolt"></i> 一键填写
+                </button>
+            </div>
+        </form>
+        
+        <div class="footer">
+            <p>遇到问题？<a href="#" id="helpLink"><i class="fas fa-question-circle"></i> 查看帮助</a></p>
+            <p>&copy; 2025 图包商店【泷】 | 注册系统 v1.0</p>
+        </div>
+    </div>
+    
+ <!-- 查询密码模态框 -->
+    <div class="modal" id="queryModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeQueryModal">&times;</span>
+            <div class="modal-header">
+                <h2><i class="fas fa-key"></i> 找回密码</h2>
+                <p>查询码:1000</p>
+            </div>
+            
+         <div class="form-group">
+    <label for="queryQQ"><i class="fab fa-qq"></i> QQ号码</label>
+    <div class="input-with-icon">
+        <i class="fab fa-qq"></i>
+        <input type="text" id="queryQQ" placeholder="请输入您的QQ号码" required>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="queryName"><i class="fas fa-user"></i> 用户昵称</label>
+    <div class="input-with-icon">
+        <i class="fas fa-user-circle"></i>
+        <input type="text" id="queryName" placeholder="请输入您的昵称">
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="queryCode"><i class="fas fa-key"></i> 代号</label>
+    <div class="input-with-icon">
+        <i class="fas fa-user-secret"></i>
+        <input type="text" id="queryCode" placeholder="请输入您的代号" required>
+    </div>
+</div>
+      
+            <div class="form-group">
+                <label for="queryPassword"><i class="fas fa-lock"></i> 查询码</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="queryPassword" placeholder="请输入查询码" required>
+                </div>
+            </div>
+            
+            <div class="status-message" id="queryStatus"></div>
+            
+            <div class="btn-group">
+                <button class="btn btn-primary" id="submitQueryBtn">
+                    <i class="fas fa-search"></i> 查询密码
+                </button>
+                <button class="btn btn-secondary" id="cancelQueryBtn">
+                    <i class="fas fa-times"></i> 取消
+                </button>
+            </div>
+            
+            <div class="query-result" id="queryResult">
+                <h3><i class="fas fa-key"></i> 查询结果</h3>
+                <p>QQ号码: <span id="resultQQ"></span></p>
+                <p>代号: <span id="resultCode"></span></p>
+                <p>账号密码: <span class="password" id="resultPassword"></span></p>
+                <div class="note-box">
+                    <i class="fas fa-exclamation-circle"></i> 请妥善保管您的密码，不要泄露给他人
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <!-- 封禁提示容器 -->
+    <div class="auth-container ban-container" id="banContainer">
+        <div class="ban-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h2>账号已被封禁</h2>
+        <p>您的账号因违规操作已被系统永久封禁</p>
+        <div class="ban-icon" id="unbanIcon" style="margin: 25px 0; font-size: 40px; color: var(--neon-accent); cursor: pointer;">
+            <i class="fas fa-Silong"></i>
+        </div>
+        <div id="unbanMessage" class="status-message" style="display: none;"></div>
+    </div>
+    
+    <!-- 欢迎页面 -->
+    <div class="auth-container" id="welcomeContainer" style="display: none;">
+        <div class="welcome-container">
+            <div class="welcome-icon">
+                <i class="fas fa-user-check"></i>
+            </div>
+            <div class="welcome-message">
+                <h2>注册成功!</h2>
+                <p>欢迎访问图包商店</p>
+            </div>
+            
+            <div class="user-info" id="userInfo">
+                <!-- 用户信息将动态填充 -->
+            </div>
+            
+            <div class="btn-group">
+                <a href="tbsd.html" class="btn btn-primary">
+                    <i class="fas fa-database"></i> 进入图包商店
+                </a>
+                <button class="btn btn-logout" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> 退出登录
+                </button>
+            </div>
+            
+            <div class="footer">
+                <p>注册状态：<span id="loginStatus">已登录</span></p>
+                <p>剩余时间：<span id="timeRemaining">24小时</span></p>
+                <p>&copy; 2025 图包商店【泷】 | 注册系统 v1.0</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 帮助模态框 -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <div class="modal-header">
+                <h2><i class="fas fa-life-ring"></i> 范特西图库帮助中心</h2>
+                <p>账号注册系统使用指南</p>
+            </div>
+            
+            <div class="help-section">
+                <h3><i class="fas fa-user-check"></i> 注册流程说明</h3>
+                <ul>
+                    <li><strong>填写信息: <p>先输入自己的QQ账号名字代号信息</p></li>
+                    <li><strong>填注册码: <p>然后再输入注册码0000后点击注册</p></li>
+                    <li><strong>确认密码: <p>确保设置密码准确无误后点击提交</p></li>
+                    <li><strong>点击复制: <p>然后点击复制按钮复制注册的信息</p></li>
+                    <li><strong>发送信息: <p>发送到相对应的会员群获取激活码</p></li>
+                    <li><strong>返回页面: <p>之后返回输入激活码即可登录账号</p></li>
+                </ul>
+            </div>
+            
+            <div class="help-section">
+                <h3><i class="fas fa-key"></i> 注册代号说明</h3>
+                <li>无特殊含义仅用于管理</li>
+                    <li><strong>泷</strong> - 待定</li>
+                    <li><strong>夜</strong> - 待定</li>
+                    <li><strong>介</strong> - 待定</li>
+                    <li><strong>川</strong> - 待定</li>
+                </ul>
+            </div>
+            
+            <div class="help-section">
+                <h3><i class="fas fa-exclamation-triangle"></i> 常见问题解决</h3>
+                <ul>
+                    <li><strong>数据丢失：</strong> <p>由于用户注册的信息为临时数据，因此无法恢复，只能再次注册账号，若想永久保存数据可私信巳泷注册永久数据</p></li>
+                    <li><strong>找回密码：</strong> <p>可点击密码输入框右侧的放大镜查询，仅限被激活的账号</p></li>
+                    <li><strong>账号封禁：</strong> <p>多次登录失败会导致账号封禁，可艾特QQ群管家解封仅解封群内成员，其他的不给予解封</p></li>
+                    <li><strong>无法加载：</strong> <p>尝试刷新页面，或者换其他浏览器尝试，推荐用迅雷浏览器</p></li>
+                </ul>
+            </div>
+            
+            <div class="contact-info">
+                <h3><i class="fas fa-headset"></i> 技术支持</h3>
+                <p><i class="fab fa-qq"></i> QQ: <span style="color:#c77dff">3213824126</span></p>
+                <p><i class="fas fa-clock"></i> 服务时间: <span style="color:#c77dff">12:00-04:00</span></p>
+                <p><i class="fas fa-video"></i> 使用教程: <a href="#" id="videoHelp" style="color: #c77dff; text-decoration: none;">>>点击查看视频<<</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 代号选择模态框 -->
+    <div class="modal" id="codeModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeCodeModal">&times;</span>
+            <div class="modal-header">
+                <h2><i class="fas fa-user-tag"></i> 选择代号</h2>
+                <p>请选择您的代号</p>
+            </div>
+            
+            <div class="code-options">
+                <div class="code-option" data-code="泷">
+                   <i class="fas fa-medal" style="color: #cd7f32;"></i>
+                    <span>泷</span>
+                </div>
+                <div class="code-option" data-code="夜">
+                    <i class="fas fa-medal" style="color: #c0c0c0;"></i>
+                    <span>夜</span>
+                </div>
+                <div class="code-option" data-code="介">
+                    <i class="fas fa-award" style="color: #ffd700;"></i>
+                    <span>介</span>
+                </div>
+                <div class="code-option" data-code="川">
+                    <i class="fas fa-gem" style="color: #b9f2ff;"></i>
+                    <span>川</span>
+                </div>
+            </div>
+            
+            <div class="btn-group" style="margin-top: 30px;">
+                <button class="btn btn-primary" id="confirmCodeBtn">
+                    <i class="fas fa-check"></i> 确认选择
+                </button>
+                <button class="btn btn-secondary" id="cancelCodeBtn">
+                    <i class="fas fa-times"></i> 取消
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 解封模态框 -->
+    <div class="unban-modal" id="unbanModal">
+        <div class="unban-modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-unlock"></i> 账号解封</h2>
+                <p>请输入解封密码以解锁账号</p>
+            </div>
+            
+            <div class="form-group" style="margin: 25px 0;">
+                <div class="input-with-icon">
+                    <i class="fas fa-key"></i>
+                    <input type="password" id="unbanPassword" placeholder="请输入解封密码">
+                </div>
+            </div>
+            
+            <div class="status-message" id="unbanStatus"></div>
+            
+            <div class="btn-group">
+                <button class="btn btn-primary" id="submitUnbanBtn">
+                    <i class="fas fa-check"></i> 提交解封
+                </button>
+                <button class="btn btn-secondary" id="cancelUnbanBtn">
+                    <i class="fas fa-times"></i> 取消
+                </button>
+            </div>
+        </div>
+    </div>
+    
+   <!-- 注册模态框 -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeRegisterModal">&times;</span>
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> 账号注册</h2>
+                <p>该账号未注册请设置密码</p>
+            </div>
+            
+          <form id="registerForm">
+                <div class="form-group">
+                    <label for="regQQ"><i class="fab fa-qq"></i> QQ号码</label>
+                    <input type="text" id="regQQ" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regName"><i class="fas fa-user"></i> 用户昵称</label>
+                    <input type="text" id="regName" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regCode"><i class="fas fa-tag"></i> 注册代号</label>
+                    <input type="text" id="regCode" readonly>
+                </div>
+
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="regPassword"><i class="fas fa-lock"></i> 设置密码</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="regPassword" placeholder="请设置您的密码" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regConfirmPassword"><i class="fas fa-lock"></i> 确认密码</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="regConfirmPassword" placeholder="请再次输入密码" required>
+                    </div>
+                </div>
+                
+                <div class="status-message" id="registerStatus"></div>
+                
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i> 提交注册
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancelRegisterBtn">
+                        <i class="fas fa-times"></i> 取消
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<!-- 激活码模态框（仅显示修改部分） -->
+    <div class="modal" id="activationModal">
+        <div class="activation-modal-content">
+            <span class="close-modal" id="closeActivationModal">&times;</span>
+            <div class="modal-header">
+                <h2><i class="fas fa-key"></i> 账号激活</h2>
+                <p>请输入激活码完成账号激活</p>
+            </div>
+            
+            <div class="activation-instructions">
+                <p><strong>首次注册的账号需要激活码：</strong></p>
+                <p>复制下方内容发送到范特西粉丝群即可免费激活账号，钻石商品需要进入会员群才可以兑换钻石购买，可点击支付之后发送支付记录给群主即可进入会员群</p>
+                <div class="activation-text" id="activationText">@Q群管家  <span id="activationQQ"></span> <span id="activationName"></span> 【<span id="activationCode"></span>】</div>
+                
+                <div style="display: flex; gap: 8px; margin-top: 8px;">
+                    <button class="copy-btn" id="copyBtn">
+                        <i class="fas fa-copy"></i> 点击复制
+                    </button>
+                    <button class="pay-btn" id="payBtn">
+                        <i class="fas fa-credit-card"></i> 点击支付
+                    </button>
+                </div>
+                
+                <p style="font-size: 12px; color: rgba(255,255,255,0.6);">调整了调整了，会员一律29.99，还是保底4个图包(每个不少于70张)</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="activationCodeInput"><i class="fas fa-key"></i> 激活码</label>
+                <input type="text" id="activationCodeInput" placeholder="请输入激活码" required>
+            </div>
+            
+            <div class="status-message" id="activationStatus"></div>
+            
+            <div class="btn-group">
+                <button class="btn btn-primary" id="submitActivationBtn">
+                    <i class="fas fa-check"></i> 激活账号
+                </button>
+                <button class="btn btn-secondary" id="cancelActivationBtn">
+                    <i class="fas fa-times"></i> 取消
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 支付模态框（新增） -->
+    <div class="payment-modal" id="paymentModal">
+        <div class="payment-content">
+            <span class="close-payment" id="closePayment">&times;</span>
+            <div class="payment-header">
+                <h2><i class="fas fa-credit-card"></i> 支付会员费用</h2>
+                <p>请选择支付方式完成支付</p>
+            </div>
+            
+            <div class="payment-options">
+                <div class="payment-option wechat" id="wechatPay">
+                    <i class="fab fa-weixin"></i>
+                    <span>微信支付</span>
+                </div>
+                <div class="payment-option alipay" id="alipayPay">
+                    <i class="fab fa-alipay"></i>
+                    <span>支付宝支付</span>
+                </div>
+            </div>
+            
+            <div class="qrcode-container" id="wechatQrcode">
+                <img src="https://s21.ax1x.com/2025/07/05/pVK6D2Q.jpg" alt="微信支付二维码">
+            </div>
+            
+            <div class="qrcode-container" id="alipayQrcode">
+                <img src="https://s21.ax1x.com/2025/07/05/pVK6yKs.jpg" alt="支付宝支付二维码">
+            </div>
+            
+            <div class="payment-instructions">
+                <h3><i class="fas fa-info-circle"></i> 支付后操作指引：</h3>
+                <ol>
+                    <li>截图保存二维码或者点击左下角跳转至链接支付</li>
+                    <li>添加群主QQ：<strong>478503796</strong></li>
+                    <li>把支付成功的记录发给群主申请进入会员群</li>
+                    <li>然后再艾特q群管家获取激活码：</li>
+                </ol>
+                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-top: 10px;">
+                    @Q群管家 【<span id="payCode"></span>】已支付会员费
+                </div>
+            </div>
+            
+            <button class="share-btn" id="shareBtn" style="display: none;">
+                <i class="fas fa-share-alt"></i> 分享给群主
+            </button>
+        </div>
+    </div>
+    
+    <!-- 视频教程模态框 -->
+    <div class="modal" id="videoModal">
+        <div class="video-modal-content">
+            <span class="close-modal" id="closeVideoModal">&times;</span>
+            <div class="modal-header">
+                <h2><i class="fas fa-video"></i> 注册系统使用教程</h2>
+                <p>首次使用请观看以下教程视频</p>
+            </div>
+            
+            <div class="video-container">
+                <video id="tutorialVideo" controls>
+                    <source src="tbsdjc.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+            
+            <div class="video-note">
+                <p><i class="fas fa-exclamation-circle"></i> 请仔细观看教程视频，了解系统使用方法</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 授权用户数据
+        let authorizedUsers = JSON.parse(localStorage.getItem('authorizedUsers')) || [
+            { qq: "3213824126", code: "泷", password: "258481", activated: true },
+
+        ];
+        
+// 黑名单 
+        const blacklist = JSON.parse(localStorage.getItem('blacklist')) || [
+            "学姐0000", "学姐1000", "学姐2000", "学姐3000", "学姐4000"
+        ];
+        
+        // 解封密码
+        const UNBAN_PASSWORD = "JFM4785";
+        // 激活码
+        const ACTIVATION_CODE = "JHM6666";
+        // 查询码
+        const QUERY_PASSWORD = "1000";
+        
+        // DOM元素 
+     const particlesContainer = document.getElementById('particles');
+const authContainer = document.getElementById('authContainer');
+const banContainer = document.getElementById('banContainer');
+const welcomeContainer = document.getElementById('welcomeContainer');
+const authForm = document.getElementById('authForm');
+const userCodeInput = document.getElementById('userCode');
+const passwordGroup = document.getElementById('passwordGroup');
+const passwordInput = document.getElementById('password');
+const passwordQueryBtn = document.getElementById('passwordQueryBtn');
+const qqInput = document.getElementById('qqNumber');
+const userNameInput = document.getElementById('userName');
+const statusMessage = document.getElementById('statusMessage');
+const submitBtn = document.getElementById('submitBtn');
+const fillBtn = document.getElementById('fillBtn');
+const unbanIcon = document.getElementById('unbanIcon');
+const unbanMessage = document.getElementById('unbanMessage');
+const helpLink = document.getElementById('helpLink');
+const helpModal = document.getElementById('helpModal');
+const closeModal = document.getElementById('closeModal');
+const codeModal = document.getElementById('codeModal');
+const closeCodeModal = document.getElementById('closeCodeModal');
+const codeOptions = document.querySelectorAll('.code-option');
+const confirmCodeBtn = document.getElementById('confirmCodeBtn');
+const cancelCodeBtn = document.getElementById('cancelCodeBtn');
+const unbanModal = document.getElementById('unbanModal');
+const unbanPasswordInput = document.getElementById('unbanPassword');
+const submitUnbanBtn = document.getElementById('submitUnbanBtn');
+const cancelUnbanBtn = document.getElementById('cancelUnbanBtn');
+const unbanStatus = document.getElementById('unbanStatus');
+const avatarImg = document.getElementById('avatarImg');
+const logoutBtn = document.getElementById('logoutBtn');
+const userInfo = document.getElementById('userInfo');
+const timeRemaining = document.getElementById('timeRemaining');
+const loginStatus = document.getElementById('loginStatus');
+const registerModal = document.getElementById('registerModal');
+const closeRegisterModal = document.getElementById('closeRegisterModal');
+const regQQ = document.getElementById('regQQ');
+const regName = document.getElementById('regName');
+const regCode = document.getElementById('regCode');
+const regPassword = document.getElementById('regPassword');
+const regConfirmPassword = document.getElementById('regConfirmPassword');
+const registerForm = document.getElementById('registerForm');
+const registerStatus = document.getElementById('registerStatus');
+const cancelRegisterBtn = document.getElementById('cancelRegisterBtn');
+const activationModal = document.getElementById('activationModal');
+const closeActivationModal = document.getElementById('closeActivationModal');
+const activationQQ = document.getElementById('activationQQ');
+const activationName = document.getElementById('activationName');
+const activationCode = document.getElementById('activationCode');
+const activationCodeInput = document.getElementById('activationCodeInput');
+const submitActivationBtn = document.getElementById('submitActivationBtn');
+const cancelActivationBtn = document.getElementById('cancelActivationBtn');
+const activationStatus = document.getElementById('activationStatus');
+const queryModal = document.getElementById('queryModal');
+const closeQueryModal = document.getElementById('closeQueryModal');
+const queryQQ = document.getElementById('queryQQ');
+const queryCode = document.getElementById('queryCode');
+const queryName = document.getElementById('queryName');
+const queryPassword = document.getElementById('queryPassword');
+const submitQueryBtn = document.getElementById('submitQueryBtn');
+const cancelQueryBtn = document.getElementById('cancelQueryBtn');
+const queryStatus = document.getElementById('queryStatus');
+const queryResult = document.getElementById('queryResult');
+const resultQQ = document.getElementById('resultQQ');
+const resultCode = document.getElementById('resultCode');
+const resultPassword = document.getElementById('resultPassword');
+const copyBtn = document.getElementById('copyBtn');
+const activationText = document.getElementById('activationText');
+const videoModal = document.getElementById('videoModal');
+const closeVideoModal = document.getElementById('closeVideoModal');
+const tutorialVideo = document.getElementById('tutorialVideo');
+const videoHelp = document.getElementById('videoHelp');
+const scanBtn = document.getElementById('scanBtn');
+const payModal = document.getElementById('payModal');
+const closeBtn = document.getElementById('closeBtn');
+const paymentOptions = document.getElementById('paymentOptions');
+const qrcodeContainer = document.getElementById('qrcodeContainer');
+const qrcodeTitle = document.getElementById('qrcodeTitle');
+const qrcodeImage = document.getElementById('qrcodeImage');
+// 新增的支付相关元素
+const paymentModal = document.getElementById('paymentModal');
+const closePayment = document.getElementById('closePayment');
+const wechatPay = document.getElementById('wechatPay');
+const alipayPay = document.getElementById('alipayPay');
+const wechatQrcode = document.getElementById('wechatQrcode');
+const alipayQrcode = document.getElementById('alipayQrcode');
+const shareBtn = document.getElementById('shareBtn');
+const payBtn = document.getElementById('payBtn');
+const payCode = document.getElementById('payCode');
+
+ 
+        // 状态变量
+        let failedAttempts = parseInt(localStorage.getItem('failedAttempts')) || 0;
+        let isBanned = localStorage.getItem('isBanned') === 'true';
+        let lastLogin = JSON.parse(localStorage.getItem('lastLogin')) || null;
+        let selectedCode = "";
+        let deviceId = localStorage.getItem('deviceId');
+        let deviceBoundQQ = localStorage.getItem('deviceBoundQQ');
+        let loginExpireTime = 0;
+        let countdownInterval = null;
+        let clickCount = 0;
+        let currentRegisterData = null;
+        let hasShownTutorial = localStorage.getItem('hasShownTutorial') === 'true';
+        
+        // 支付按钮事件
+        payBtn.addEventListener('click', function() {
+            const qq = activationQQ.textContent;
+            const code = activationCode.textContent;
+            
+            if (!qq || !code) {
+                showStatusMessage("请先完成注册信息", "error");
+                return;
+            }
+            
+            payCode.textContent = code;
+            paymentModal.style.display = 'flex';
+            wechatQrcode.style.display = 'none';
+            alipayQrcode.style.display = 'none';
+            shareBtn.style.display = 'none';
+        });
+        
+        // 关闭支付模态框
+        closePayment.addEventListener('click', function() {
+            paymentModal.style.display = 'none';
+        });
+        
+        // 点击模态框外部关闭
+        window.addEventListener('click', function(e) {
+            if (e.target === paymentModal) {
+                paymentModal.style.display = 'none';
+            }
+        });
+        
+       // 微信支付选择
+wechatPay.addEventListener('click', function() {
+    wechatQrcode.style.display = 'block';
+    alipayQrcode.style.display = 'none';
+    shareBtn.style.display = 'block';
+    shareBtn.innerHTML = '<i class="fab fa-weixin"></i> 去微信支付';
+    shareBtn.onclick = function() {
+        window.location.href = 'wxzf.jpg';
+        showStatusMessage("已跳转至微信支付页面", "success");
+    };
+});
+
+// 支付宝支付选择
+alipayPay.addEventListener('click', function() {
+    wechatQrcode.style.display = 'none';
+    alipayQrcode.style.display = 'block';
+    shareBtn.style.display = 'block';
+    shareBtn.innerHTML = '<i class="fab fa-alipay"></i> 去支付宝支付';
+    shareBtn.onclick = function() {
+        window.location.href = 'https://render.alipay.com/p/s/i?scheme=%61%6C%69%70%61%79%73%3A%2F%2F%70%6C%61%74%66%6F%72%6D%61%70%69%2F%73%74%61%72%74%61%70%70%3F%73%61%49%64%3D%31%30%30%30%30%30%30%37%26%71%72%63%6F%64%65%3D%25%36%38%25%37%34%25%37%34%25%37%30%25%37%33%25%33%41%25%32%46%25%32%46%25%37%31%25%37%32%25%32%45%25%36%31%25%36%43%25%36%39%25%37%30%25%36%31%25%37%39%25%32%45%25%36%33%25%36%46%25%36%44%25%32%46%25%36%36%25%36%42%25%37%38%25%33%31%25%33%39%25%33%30%25%33%37%25%33%32%25%37%33%25%36%41%25%37%36%25%37%31%25%37%41%25%36%37%25%36%41%25%36%45%25%36%35%25%36%32%25%36%31%25%36%35%25%37%36%25%36%31%25%36%32%25%33%46%25%35%46%25%37%33%25%33%44%25%37%37%25%36%35%25%36%32%25%32%44%25%36%46%25%37%34%25%36%38%25%36%35%25%37%32';
+        showStatusMessage("已跳转至支付宝支付页面", "success");
+    };
+});
+
+ 
+        // 初始化页面 
+        function init() {
+            // 生成设备ID 
+            if (!deviceId) {
+                deviceId = 'dev_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+                localStorage.setItem('deviceId', deviceId);
+            }
+            
+            // 设置头像 
+            avatarImg.src = "https://s21.ax1x.com/2025/07/03/pVKZdh9.jpg";
+            
+            createParticles();
+            checkBannedStatus();
+            checkSessionStatus();
+            setupEventListeners();
+            
+            // 首次打开显示教程视频
+            if (!hasShownTutorial) {
+                setTimeout(() => {
+                    videoModal.style.display = 'flex';
+                    tutorialVideo.play();
+                    localStorage.setItem('hasShownTutorial', 'true');
+                }, 1000);
+            }
+        }
+ 
+        // 创建背景粒子 
+        function createParticles() {
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('bg-particle');
+                
+                const size = Math.random() * 25 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                particle.style.left = `${Math.random() * 100}%`;
+                
+                const delay = Math.random() * 15;
+                const duration = Math.random() * 10 + 15;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+ 
+        // 检查账号是否被封禁
+        function checkBannedStatus() {
+            if (isBanned) {
+                authContainer.style.display = 'none';
+                banContainer.style.display = 'block';
+                // 播放封禁音效
+                playSound('fjyx.mp3');
+            } else {
+                authContainer.style.display = 'block';
+                banContainer.style.display = 'none';
+            }
+        }
+ 
+        // 检查会话状态 
+        function checkSessionStatus() {
+            if (isBanned) return;
+            
+            const sessionActive = sessionStorage.getItem('sessionActive') === 'true';
+            const sessionExpire = parseInt(sessionStorage.getItem('sessionExpire'));
+            
+            if (sessionActive && sessionExpire) {
+                const currentTime = new Date().getTime();
+                if (currentTime < sessionExpire) {
+                    showWelcomePage();
+                    return;
+                }
+            }
+            
+            const rememberMe = localStorage.getItem('rememberMe') === 'true';
+            const lastLogin = JSON.parse(localStorage.getItem('lastLogin')) || null;
+            const lastLoginTime = parseInt(localStorage.getItem('lastLoginTime'));
+            
+            if (rememberMe && lastLogin && lastLoginTime) {
+                const twentyFourHours = 24 * 60 * 60 * 1000;
+                const currentTime = new Date().getTime();
+                
+                if (currentTime - lastLoginTime < twentyFourHours) {
+                    sessionStorage.setItem('sessionActive', 'true');
+                    sessionStorage.setItem('sessionExpire', (lastLoginTime + twentyFourHours).toString());
+                    showWelcomePage();
+                } else {
+                    localStorage.removeItem('rememberMe');
+                    localStorage.removeItem('lastLogin');
+                    localStorage.removeItem('lastLoginTime');
+                }
+            }
+        }
+ 
+        // 显示欢迎页面 
+        function showWelcomePage() {
+            authContainer.style.display = 'none';
+            welcomeContainer.style.display = 'block';
+            
+            const lastLogin = JSON.parse(localStorage.getItem('lastLogin')) || {};
+            const loginTime = parseInt(localStorage.getItem('lastLoginTime'));
+            const expireTime = loginTime + (24 * 60 * 60 * 1000);
+            
+            userInfo.innerHTML = `
+                <div class="user-info-item">
+                    <span>QQ号码:</span>
+                    <span>${lastLogin.qq || '未知'}</span>
+                </div>
+                <div class="user-info-item">
+                    <span>用户昵称:</span>
+                    <span>${lastLogin.name || '未知'}</span>
+                </div>
+                <div class="user-info-item">
+                    <span>注册代号:</span>
+                    <span>${lastLogin.code || '未知'}</span>
+                </div>
+                <div class="user-info-item">
+                    <span>登录设备:</span>
+                    <span>${deviceId || '未知'}</span>
+                </div>
+            `;
+            
+            startCountdown(expireTime);
+        }
+ 
+        // 启动倒计时
+        function startCountdown(expireTime) {
+            loginExpireTime = expireTime;
+            
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            countdownInterval = setInterval(() => {
+                const currentTime = new Date().getTime();
+                const timeLeft = expireTime - currentTime;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    timeRemaining.textContent = "已过期";
+                    loginStatus.textContent = "登录已过期";
+                    logout();
+                    return;
+                }
+                
+                const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                
+                timeRemaining.textContent = `${hours}小时${minutes}分${seconds}秒`;
+            }, 1000);
+        }
+ 
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 播放点击音效
+            document.querySelectorAll('button, input, a').forEach(element => {
+                element.addEventListener('click', () => playSound('anyx.mp3'));
+            });
+            
+            // 输入框点击音效
+            document.querySelectorAll('input, textarea, select').forEach(element => {
+                element.addEventListener('focus', () => playSound('srkyx.mp3'));
+            });
+            
+            // 注册代号输入框点击事件
+            userCodeInput.addEventListener('click', function() {
+                codeModal.style.display = 'flex';
+            });
+            
+            // 代号选择事件
+            codeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    codeOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedCode = this.dataset.code;
+                });
+            });
+            
+            // 确认代号选择
+            confirmCodeBtn.addEventListener('click', function() {
+                if (selectedCode) {
+                    userCodeInput.value = selectedCode;
+                    codeModal.style.display = 'none';
+                    
+                    if (selectedCode === "泷" || selectedCode === "夜" || selectedCode === "介" || selectedCode === "川") {
+                        passwordGroup.style.display = 'block';
+                        passwordInput.required = true;
+                    } else {
+                        passwordGroup.style.display = 'none';
+                        passwordInput.required = false;
+                    }
+                } else {
+                    showStatusMessage("请选择一个专属代号", "error");
+                }
+            });
+            
+            // 取消代号选择 
+            cancelCodeBtn.addEventListener('click', function() {
+                codeModal.style.display = 'none';
+            });
+            
+            // 关闭代号模态框 
+            closeCodeModal.addEventListener('click', function() {
+                codeModal.style.display = 'none';
+            });
+            
+            // 表单提交事件 
+            authForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                authenticateUser();
+            });
+            
+            // 一键填写按钮 
+            fillBtn.addEventListener('click', function() {
+                if (lastLogin) {
+                    qqInput.value = lastLogin.qq;
+                    userNameInput.value = lastLogin.name || "";
+                    userCodeInput.value = lastLogin.code;
+                    selectedCode = lastLogin.code;
+                    
+                    if (lastLogin.code === "泷" || lastLogin.code === "夜" || lastLogin.code === "介" || lastLogin.code === "川") {
+                        passwordGroup.style.display = 'block';
+                        passwordInput.value = lastLogin.password || "";
+                    }
+                    
+                    showStatusMessage("已自动填充上次登录信息", "warning");
+                } else {
+                    showStatusMessage("没有找到上次登录信息", "error");
+                }
+            });
+            
+            // 解封图标点击事件 
+            unbanIcon.addEventListener('click', function() {
+                clickCount++;
+                
+                if (clickCount < 7) {
+                    this.innerHTML = `<i class="fas fa-Silong"></i> ${7 - clickCount}`;
+                    this.style.transform = "scale(1.1)";
+                    setTimeout(() => {
+                        this.style.transform = "scale(1)";
+                    }, 200);
+                } else {
+                    unbanModal.style.display = 'flex';
+                }
+            });
+            
+            // 提交解封请求 
+            submitUnbanBtn.addEventListener('click', function() {
+                const password = unbanPasswordInput.value.trim();
+                
+                if (password === UNBAN_PASSWORD) {
+                    unbanAccount();
+                } else {
+                    unbanStatus.textContent = "解封密码错误，请重试";
+                    unbanStatus.className = "status-message error-message";
+                    unbanStatus.style.display = 'block';
+                }
+            });
+            
+            // 取消解封
+            cancelUnbanBtn.addEventListener('click', function() {
+                unbanModal.style.display = 'none';
+                unbanPasswordInput.value = "";
+                unbanStatus.style.display = 'none';
+            });
+            
+            
+            // 帮助链接 
+            helpLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                helpModal.style.display = 'flex';
+            });
+            
+            // 关闭模态框 
+            closeModal.addEventListener('click', function() {
+                helpModal.style.display = 'none';
+            });
+            
+            // 视频教程链接
+            videoHelp.addEventListener('click', function(e) {
+                e.preventDefault();
+                videoModal.style.display = 'flex';
+                tutorialVideo.play();
+            });
+            
+            // 关闭视频模态框
+            closeVideoModal.addEventListener('click', function() {
+                videoModal.style.display = 'none';
+                tutorialVideo.pause();
+            });
+            
+            // 退出登录按钮 
+            logoutBtn.addEventListener('click', function() {
+                logout();
+            });
+            
+            // 取消注册 
+            cancelRegisterBtn.addEventListener('click', function() {
+                registerModal.style.display = 'none';
+            });
+            
+            // 注册表单提交 
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                registerUser();
+            });
+            
+            // 关闭注册模态框 
+            closeRegisterModal.addEventListener('click', function() {
+                registerModal.style.display = 'none';
+            });
+            
+            // 提交激活码 
+            submitActivationBtn.addEventListener('click', function() {
+                activateAccount();
+            });
+            
+            // 取消激活 
+            cancelActivationBtn.addEventListener('click', function() {
+                activationModal.style.display = 'none';
+            });
+            
+            // 关闭激活模态框 
+            closeActivationModal.addEventListener('click', function() {
+                activationModal.style.display = 'none';
+            });
+            
+            // 密码查询按钮 
+            passwordQueryBtn.addEventListener('click', function() {
+                queryModal.style.display = 'flex';
+                queryStatus.style.display = 'none';
+                queryResult.style.display = 'none';
+            });
+            
+            // 关闭查询模态框 
+            closeQueryModal.addEventListener('click', function() {
+                queryModal.style.display = 'none';
+            });
+            
+            // 取消查询
+            cancelQueryBtn.addEventListener('click', function() {
+                queryModal.style.display = 'none';
+            });
+            
+            // 提交查询请求
+            submitQueryBtn.addEventListener('click', function() {
+                const qq = queryQQ.value.trim();
+                const code = queryCode.value.trim();
+                const name = queryName.value.trim();
+                const password = queryPassword.value.trim();
+                
+                if (!qq || !code || !password) {
+                    queryStatus.textContent = "请填写所有必填项";
+                    queryStatus.className = "status-message error-message";
+                    queryStatus.style.display = 'block';
+                    return;
+                }
+                
+                if (password !== QUERY_PASSWORD) {
+                    queryStatus.textContent = "查询密码错误，请重试";
+                    queryStatus.className = "status-message error-message";
+                    queryStatus.style.display = 'block';
+                    return;
+                }
+                
+                // 在授权用户和本地存储用户中查找
+                let user = authorizedUsers.find(u => u.qq === qq && u.code === code);
+                if (!user) {
+                    const localUsers = JSON.parse(localStorage.getItem('localUsers')) || [];
+                    user = localUsers.find(u => u.qq === qq && u.code === code);
+                }
+                
+                if (!user) {
+                    queryStatus.textContent = "未找到匹配的账号信息";
+                    queryStatus.className = "status-message error-message";
+                    queryStatus.style.display = 'block';
+                    return;
+                }
+                
+                // 显示查询结果 
+                resultQQ.textContent = qq;
+                resultCode.textContent = code;
+                resultPassword.textContent = user.password;
+                
+                queryStatus.style.display = 'none';
+                queryResult.style.display = 'block';
+            });
+            
+            // 复制按钮功能 
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function() {
+                    const textToCopy = activationText.textContent;
+                    
+                    // 创建一个临时textarea元素来复制文本 
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    
+                    // 显示复制成功的提示
+                    const originalHtml = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                    
+                    // 2秒后恢复原状 
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalHtml;
+                    }, 2000);
+                });
+            }
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(e) {
+                if (e.target === helpModal) helpModal.style.display = 'none';
+                if (e.target === codeModal) codeModal.style.display = 'none';
+                if (e.target === unbanModal) unbanModal.style.display = 'none';
+                if (e.target === registerModal) registerModal.style.display = 'none';
+                if (e.target === activationModal) activationModal.style.display = 'none';
+                if (e.target === queryModal) queryModal.style.display = 'none';
+                if (e.target === videoModal) {
+                    videoModal.style.display = 'none';
+                    tutorialVideo.pause();
+                }
+            });
+        }
+ 
+        // 用户注册
+        function authenticateUser() {
+            const qq = qqInput.value.trim();
+            const name = userNameInput.value.trim();
+            const code = selectedCode;
+            const password = passwordInput.value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            // QQ号格式验证
+            if (!qq || qq.length < 5 || qq.length > 10 || isNaN(qq)) {
+                showStatusMessage("QQ号必须是5-10位数字", "error");
+                return;
+            }
+            
+            if (!name) {
+                showStatusMessage("请填写用户昵称", "error");
+                return;
+            }
+            
+            if (!code) {
+                showStatusMessage("请选择注册代号", "error");
+                return;
+            }
+            
+            // 检查是否在黑名单中 
+            if (blacklist.includes(qq)) {
+                showStatusMessage("该账号已被拉入黑名单，无法登录", "error");
+                return;
+            }
+            
+            if (deviceBoundQQ && deviceBoundQQ !== qq) {
+                showStatusMessage("该设备已绑定其他账号，禁止登录", "error");
+                banAccount(qq);
+                return;
+            }
+            
+            submitBtn.innerHTML = '<span class="loading"></span> 验证中...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                // 在授权用户和本地存储用户中查找 
+                let user = null;
+                
+                // 在授权用户中查找 
+                user = authorizedUsers.find(u => u.qq === qq);
+                
+                // 在本地存储用户中查找 
+                if (!user) {
+                    const localUsers = JSON.parse(localStorage.getItem('localUsers')) || [];
+                    user = localUsers.find(u => u.qq === qq);
+                }
+                
+                if (!user) {
+                    // 未注册用户，弹出注册框 
+                    showRegisterModal(qq, name, code);
+                    submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> 账号注册';
+                    submitBtn.disabled = false;
+                    return;
+                }
+                
+                // 检查账号是否匹配
+                if (user.code !== code) {
+                    handleFailedAttempt("该账号已注册，可点击搜索按钮查询代号", qq);
+                    return;
+                }
+                
+                if (user.password && user.password !== password) {
+                    handleFailedAttempt("该账号已注册，可点击搜索按钮查询密码");
+                    return;
+                }
+                
+                // 检查账号是否已激活 
+                if (!user.activated) {
+                    showActivationModal(user.qq, user.name, user.code);
+                    submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> 账号注册';
+                    submitBtn.disabled = false;
+                    return;
+                }
+                
+                handleSuccess(user, name, rememberMe);
+            }, 1000);
+        }
+ 
+        // 显示注册模态框 
+        function showRegisterModal(qq, name, code) {
+            regQQ.value = qq;
+            regName.value = name;
+            regCode.value = code;
+            registerStatus.style.display = 'none';
+            registerModal.style.display = 'flex';
+            
+            // 保存当前注册数据 
+            currentRegisterData = { qq, name, code };
+        }
+ 
+        // 注册用户
+        function registerUser() {
+            const password = regPassword.value;
+            const confirmPassword = regConfirmPassword.value;
+            
+            if (!password) {
+                registerStatus.textContent = "请设置密码";
+                registerStatus.className = "status-message error-message";
+                registerStatus.style.display = 'block';
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                registerStatus.textContent = "两次输入的密码不一致";
+                registerStatus.className = "status-message error-message";
+                registerStatus.style.display = 'block';
+                return;
+            }
+            
+            // 检查是否在黑名单中 
+            if (blacklist.includes(currentRegisterData.qq)) {
+                registerStatus.textContent = "该账号已被拉入黑名单，无法注册";
+                registerStatus.className = "status-message error-message";
+                registerStatus.style.display = 'block';
+                return;
+            }
+            
+            // 创建新用户 
+            const newUser = {
+                qq: currentRegisterData.qq,
+                name: currentRegisterData.name,
+                code: currentRegisterData.code,
+                password: password,
+                activated: false 
+            };
+            
+            // 保存到本地存储 
+            let localUsers = JSON.parse(localStorage.getItem('localUsers')) || [];
+            localUsers.push(newUser);
+            localStorage.setItem('localUsers', JSON.stringify(localUsers));
+            
+            // 添加到授权用户列表（临时）
+            authorizedUsers.push(newUser);
+            
+            registerStatus.textContent = "注册成功！请激活账号";
+            registerStatus.className = "status-message success-message";
+            registerStatus.style.display = 'block';
+            
+            setTimeout(() => {
+                registerModal.style.display = 'none';
+                showActivationModal(newUser.qq, newUser.name, newUser.code);
+            }, 1500);
+        }
+ 
+        // 显示激活模态框 
+        function showActivationModal(qq, name, code) {
+            activationQQ.textContent = qq;
+            activationName.textContent = name;
+            activationCode.textContent = code;
+            activationStatus.style.display = 'none';
+            activationModal.style.display = 'flex';
+        }
+ 
+        // 激活账号
+        function activateAccount() {
+            const code = activationCodeInput.value.trim();
+            
+            if (code !== ACTIVATION_CODE) {
+                activationStatus.textContent = "激活码错误，请重试";
+                activationStatus.className = "status-message error-message";
+                activationStatus.style.display = 'block';
+                return;
+            }
+            
+            // 更新账号激活状态 
+            const qq = activationQQ.textContent;
+            let localUsers = JSON.parse(localStorage.getItem('localUsers')) || [];
+            
+            const userIndex = localUsers.findIndex(u => u.qq === qq);
+            if (userIndex !== -1) {
+                localUsers[userIndex].activated = true;
+                localStorage.setItem('localUsers', JSON.stringify(localUsers));
+                
+                // 更新授权用户列表 
+                const authUserIndex = authorizedUsers.findIndex(u => u.qq === qq);
+                if (authUserIndex !== -1) {
+                    authorizedUsers[authUserIndex].activated = true;
+                }
+                
+                activationStatus.textContent = "账号激活成功！";
+                activationStatus.className = "status-message success-message";
+                activationStatus.style.display = 'block';
+                
+                // 自动登录 
+                setTimeout(() => {
+                    activationModal.style.display = 'none';
+                    
+                    const user = authorizedUsers.find(u => u.qq === qq);
+                    if (user) {
+                        handleSuccess(user, user.name, true);
+                    }
+                }, 1500);
+            } else {
+                activationStatus.textContent = "账号不存在";
+                activationStatus.className = "status-message error-message";
+                activationStatus.style.display = 'block';
+            }
+        }
+ 
+        // 处理注册成功 
+        function handleSuccess(user, name, rememberMe) {
+            failedAttempts = 0;
+            localStorage.setItem('failedAttempts', failedAttempts);
+            
+            lastLogin = {
+                qq: user.qq,
+                name: name,
+                code: user.code,
+                password: user.password 
+            };
+            
+            const currentTime = new Date().getTime();
+            const expireTime = currentTime + (24 * 60 * 60 * 1000);
+            
+            if (rememberMe) {
+                localStorage.setItem('rememberMe', 'true');
+                localStorage.setItem('lastLogin', JSON.stringify(lastLogin));
+                localStorage.setItem('lastLoginTime', currentTime.toString());
+            }
+            
+            sessionStorage.setItem('sessionActive', 'true');
+            sessionStorage.setItem('sessionExpire', expireTime.toString());
+            localStorage.setItem('deviceBoundQQ', user.qq);
+            
+            showStatusMessage(`登录成功！欢迎回来 ${name}`, "success");
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> 登录成功';
+            
+            setTimeout(() => {
+                showWelcomePage();
+            }, 2000);
+        }
+ 
+        // 处理注册失败 
+        function handleFailedAttempt(message, qq) {
+            failedAttempts++;
+            localStorage.setItem('failedAttempts', failedAttempts);
+            
+            showStatusMessage(`${message}，失败次数: ${failedAttempts}/5`, "error");
+            submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> 注册账号';
+            submitBtn.disabled = false;
+            
+            if (failedAttempts >= 5) {
+                banAccount(qq);
+            }
+        }
+ 
+        // 封禁账号
+        function banAccount(qq) {
+            isBanned = true;
+            localStorage.setItem('isBanned', 'true');
+            localStorage.setItem('bannedQQ', qq);
+            authContainer.style.display = 'none';
+            banContainer.style.display = 'block';
+            // 播放封禁音效
+            playSound('fjyx.mp3');
+        }
+ 
+        // 解封账号 
+        function unbanAccount() {
+            unbanMessage.style.display = 'block';
+            unbanMessage.textContent = "宝子你继续🤗";
+            unbanMessage.className = "status-message warning-message";
+            
+            setTimeout(() => {
+                isBanned = false;
+                failedAttempts = 0;
+                localStorage.setItem('isBanned', 'false');
+                localStorage.setItem('failedAttempts', '0');
+                localStorage.removeItem('deviceBoundQQ');
+                
+                authContainer.style.display = 'block';
+                banContainer.style.display = 'none';
+                unbanModal.style.display = 'none';
+                unbanIcon.innerHTML = '<i class="fas fa-Silong"></i>';
+                
+                showStatusMessage("账号已成功解封，请重新登录", "success");
+            }, 1500);
+        }
+ 
+        // 退出登录
+        function logout() {
+            sessionStorage.removeItem('sessionActive');
+            sessionStorage.removeItem('sessionExpire');
+            
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            welcomeContainer.style.display = 'none';
+            authContainer.style.display = 'block';
+            showStatusMessage("您已成功退出登录", "success");
+        }
+ 
+        // 显示状态消息 
+        function showStatusMessage(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}-message`;
+            statusMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 10000);
+        }
+        
+        // 播放音效
+        function playSound(soundFile) {
+            const audio = new Audio(soundFile);
+            audio.play().catch(e => console.log("音效播放失败:", e));
+        }
+      
+
+        // 初始化页面 
+        window.addEventListener('DOMContentLoaded', init);
+   // 打开模态框
+    scanBtn.addEventListener('click', () => {
+      payModal.style.display = 'flex';
+      // 重置状态
+      paymentOptions.style.display = 'flex';
+      qrcodeContainer.classList.add('hidden');
+    });
+
+    // 关闭模态框
+    closeBtn.addEventListener('click', () => {
+      payModal.style.display = 'none';
+    });
+
+    // 点击模态框背景关闭
+    payModal.addEventListener('click', (e) => {
+      if (e.target === payModal) {
+        payModal.style.display = 'none';
+      }
+    });
+
+    // 选择支付方式
+    document.querySelectorAll('.payment-method').forEach(method => {
+      method.addEventListener('click', () => {
+        const type = method.getAttribute('data-type');
+        
+        // 隐藏支付选项，显示二维码
+        paymentOptions.style.display = 'none';
+        qrcodeContainer.classList.remove('hidden');
+        
+        // 设置二维码信息
+        if (type === 'wechat') {
+          qrcodeTitle.textContent = '微信支付二维码';
+          qrcodeImage.src = 'wxzf.jpg'; // 微信二维码路径
+        } else if (type === 'alipay') {
+          qrcodeTitle.textContent = '支付宝支付二维码';
+          qrcodeImage.src = 'zfbzf.jpg'; // 支付宝二维码路径
+        }
+        qrcodeImage.alt = `${type === 'wechat' ? '微信' : '支付宝'}支付二维码`;
+      });
+    });
+  </script>
+</body>
+</html>

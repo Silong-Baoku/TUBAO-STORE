@@ -1,0 +1,218 @@
+ <!DOCTYPE html>
+ <html lang="zh-CN">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>图包商店维护公告</title>
+     <style>
+         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+         
+         * {
+             margin: 0;
+             padding: 0;
+             box-sizing: border-box;
+         }
+         
+         body {
+             background-color: #0a0a2a;
+             color: #00f7ff;
+             font-family: 'Orbitron', sans-serif;
+             height: 100vh;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             overflow: hidden;
+             position: relative;
+         }
+         
+         .container {
+             position: relative;
+             width: 80%;
+             max-width: 800px;
+             padding: 40px;
+             border: 3px solid #0066ff;
+             border-radius: 10px;
+             box-shadow: 0 0 20px #0066ff, 
+                         inset 0 0 20px #0066ff;
+             text-align: center;
+             background: rgba(0, 20, 60, 0.3);
+             backdrop-filter: blur(5px);
+             z-index: 10;
+             animation: pulse 2s infinite alternate;
+         }
+         
+         h1 {
+             font-size: 2.5rem;
+             margin-bottom: 30px;
+             text-shadow: 0 0 10px #00f7ff, 
+                          0 0 20px #00f7ff;
+             letter-spacing: 2px;
+         }
+         
+         p {
+             font-size: 1.2rem;
+             line-height: 1.6;
+             margin-bottom: 30px;
+             text-shadow: 0 0 5px #00f7ff;
+         }
+         
+         .icon {
+             font-size: 4rem;
+             margin-bottom: 20px;
+             animation: float 3s ease-in-out infinite;
+         }
+         
+         .progress-container {
+             width: 100%;
+             height: 20px;
+             background: rgba(0, 50, 100, 0.5);
+             border-radius: 10px;
+             margin: 30px 0;
+             overflow: hidden;
+             border: 1px solid #0066ff;
+         }
+         
+         .progress-bar {
+             height: 100%;
+             width: 65%;
+             background: linear-gradient(90deg, #0066ff, #00f7ff);
+             border-radius: 10px;
+             animation: progress 2s ease-in-out infinite alternate;
+             box-shadow: 0 0 10px #0066ff;
+         }
+         
+         .status {
+             font-size: 0.9rem;
+             color: #00b7ff;
+             margin-top: 10px;
+         }
+         
+         .neon-circle {
+             position: absolute;
+             border-radius: 50%;
+             filter: blur(40px);
+             opacity: 0.5;
+         }
+         
+         .circle1 {
+             width: 300px;
+             height: 300px;
+             background: #0066ff;
+             top: -100px;
+             left: -100px;
+             animation: move1 15s infinite alternate;
+         }
+         
+         .circle2 {
+             width: 400px;
+             height: 400px;
+             background: #00f7ff;
+             bottom: -150px;
+             right: -100px;
+             animation: move2 20s infinite alternate;
+         }
+         
+         @keyframes pulse {
+             0% {
+                 box-shadow: 0 0 20px #0066ff, 
+                             inset 0 0 20px #0066ff;
+             }
+             100% {
+                 box-shadow: 0 0 30px #00f7ff, 
+                             inset 0 0 30px #00f7ff;
+             }
+         }
+         
+         @keyframes float {
+             0%, 100% {
+                 transform: translateY(0);
+             }
+             50% {
+                 transform: translateY(-15px);
+             }
+         }
+         
+         @keyframes progress {
+             0% {
+                 width: 65%;
+             }
+             100% {
+                 width: 70%;
+             }
+         }
+         
+         @keyframes move1 {
+             0% {
+                 transform: translate(0, 0);
+             }
+             100% {
+                 transform: translate(50px, 50px);
+             }
+         }
+         
+         @keyframes move2 {
+             0% {
+                 transform: translate(0, 0);
+             }
+             100% {
+                 transform: translate(-50px, -50px);
+             }
+         }
+         
+         .glitch-btn {
+             margin-top: 20px;
+             padding: 12px 30px;
+             background: transparent;
+             color: #00f7ff;
+             border: 2px solid #00f7ff;
+             font-family: 'Orbitron', sans-serif;
+             font-size: 1rem;
+             cursor: pointer;
+             position: relative;
+             overflow: hidden;
+             transition: all 0.3s;
+             box-shadow: 0 0 10px #00f7ff;
+             text-transform: uppercase;
+             letter-spacing: 2px;
+         }
+         
+         .glitch-btn:hover {
+             background: rgba(0, 247, 255, 0.1);
+             box-shadow: 0 0 20px #00f7ff;
+         }
+         
+         .glitch-btn::before {
+             content: '';
+             position: absolute;
+             top: 0;
+             left: -100%;
+             width: 100%;
+             height: 100%;
+             background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.4), transparent);
+             transition: all 0.5s;
+         }
+         
+         .glitch-btn:hover::before {
+             left: 100%;
+         }
+     </style>
+ </head>
+ <body>
+     <div class="neon-circle circle1"></div>
+     <div class="neon-circle circle2"></div>
+     
+     <div class="container">
+         <div class="icon">🔧</div>
+         <h1>图包商店维护公告</h1>
+         <p>我们正在维护更新，以提供更稳定的服务体验。</p>
+         <p>在此期间，图包商店的访问通道已暂时关闭，给您带来的不便，我们深表歉意。</p>
+         
+         <div class="progress-container">
+             <div class="progress-bar"></div>
+         </div>
+         <div class="status">修复进度: 80% - 预计完成时间: 1小时后</div>
+         
+         <button class="glitch-btn" onclick="window.location.href='/'">返回首页</button>
+     </div>
+ </body>
+ </html>
